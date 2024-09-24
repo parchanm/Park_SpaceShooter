@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Codice.CM.WorkspaceServer;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -61,36 +62,68 @@ public class Player : MonoBehaviour
         //transform.position += velocity * Time.deltaTime;
 
         //velocity += acceleration * Time.deltaTime;
+        //
+        transform.position += velocity * Time.deltaTime;
+
+        //note from tutor. vector can't go negative anyways because it's direction
+        //velocity = Vector3.ClampMagnitude(velocity, 100);
+        //acceleration = Mathf.Clamp(0, 0, 100);
+        //acceleration = acceleration - 0.1f * Time.deltaTime;
+
+        //velocity = velocity - 0.01f;
+
+        //Vector3 deceleration = new Vector3()
+        if (Input.GetKey(KeyCode.None))
+        {
+            velocity -= acceleration * velocity.normalized * Time.deltaTime; //picture: normalized vs not normalized
+        }
+        //velocity -= acceleration * velocity.normalized * Time.deltaTime; //picture: normalized vs not normalized
 
 
-        if (Input.GetKey(KeyCode.W) && maxSpeed > acceleration)
+        if (Input.GetKey(KeyCode.UpArrow) && maxSpeed > acceleration)
         {
             //transform.position = new Vector3(transform.position.x, transform.position.y + myVelocity);
             //transform.position += Vector3.up * myVelocity * acceleration * Time.deltaTime;
 
             velocity += acceleration * Vector3.up * Time.deltaTime;
-            transform.position += velocity * Time.deltaTime;
+            //transform.position += velocity * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.A) && maxSpeed > acceleration)
+        if (Input.GetKey(KeyCode.LeftArrow) && maxSpeed > acceleration)
         {
             //transform.position = new Vector3(transform.position.x - myVelocity, transform.position.y);
-            transform.position += Vector3.left * myVelocity * acceleration * Time.deltaTime;
+            velocity += acceleration * Vector3.left * Time.deltaTime;
+            //transform.position += Vector3.left * myVelocity * acceleration * Time.deltaTime;
+            //transform.position += velocity * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.S) && maxSpeed > acceleration)
+        if (Input.GetKey(KeyCode.DownArrow) && maxSpeed > acceleration)
         {
             //transform.position = new Vector3(transform.position.x, transform.position.y - myVelocity);
-            transform.position += Vector3.down * myVelocity * acceleration * Time.deltaTime;
+            velocity += acceleration * Vector3.down * Time.deltaTime;
+            //transform.position += velocity * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.D) && maxSpeed > acceleration)
+        if (Input.GetKey(KeyCode.RightArrow) && maxSpeed > acceleration)
         {
             //transform.position = new Vector3(transform.position.x + myVelocity, transform.position.y);
-            transform.position += Vector3.right * myVelocity * acceleration * Time.deltaTime;
+            velocity += acceleration * Vector3.right * Time.deltaTime;
+            //transform.position += velocity * Time.deltaTime;
         }
         //deceleration
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-
-        }
+        //if (Input.GetKeyUp(KeyCode.UpArrow))
+        //{
+        //    velocity -= acceleration * Vector3.up * Time.deltaTime;
+        //}
+        //if (Input.GetKeyUp(KeyCode.LeftArrow))
+        //{
+        //    velocity -= acceleration * Vector3.left * Time.deltaTime;
+        //}
+        //if (Input.GetKeyUp(KeyCode.DownArrow))
+        //{
+        //    velocity -= acceleration * Vector3.down * Time.deltaTime;
+        //}
+        //if (Input.GetKeyUp(KeyCode.RightArrow))
+        //{
+        //    velocity -= acceleration * Vector3.right * Time.deltaTime;
+        //}
     }
 
     //public void playerMovement()
