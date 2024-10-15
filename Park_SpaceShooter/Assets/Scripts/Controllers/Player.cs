@@ -10,18 +10,18 @@ public class Player : MonoBehaviour
 
     //W4 task 1
     private List<float> angles = new List<float>(); // make list of angles
-    private int currentAngleIndex = 0;
+    //private int currentAngleIndex = 0;
     public float radius;
     Vector3 offset4radius;
     //task 2
     private List<float> task2Angles = new List<float>();
-    private int currentTask2Angles = 0;
+    //private int currentTask2Angles = 0;
     public float task2Radius;
     public int powerupNumber = 3;
 
     public GameObject powerUpHere;
 
-    private float timeSinceLastUpdate = 0f;
+    //private float timeSinceLastUpdate = 0f;
     public float updateFrequency;
     public int cPoints = 8;
 
@@ -40,6 +40,16 @@ public class Player : MonoBehaviour
     //The speed that we want the character to reach after a certain amount of time
     public float maxSpeed = 2f;
     //private float acceleration;
+
+    //spaceShooter Final Assignment
+    public float hyperRIngRadius = 5f;
+    public float speedBoost = 2f;
+    public Transform hyperRingHere;
+    public float originalMaxSpeed = 2f;
+    public float boostedSpeed = 4f;
+
+    public bool inTheRing = false;
+
 
 
     private List<string> words = new List<string>();
@@ -111,6 +121,8 @@ public class Player : MonoBehaviour
         {
             SpawnPowerups(radius, powerupNumber);
         }
+
+        HyperRing();
     }
     //public void EnemyRadar(float radius, int circlePoints)
     //{
@@ -165,8 +177,6 @@ public class Player : MonoBehaviour
         angles = new List<float>();// everytime this method is called, reset the list
         for (int i = 0; i < circlePoints; i++)
         {
-
-
             angles.Add(360f / circlePoints * i); //leslie's guidance
         }
         Vector3 startingPoint = transform.position;
@@ -237,6 +247,25 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < numberOfPowerups; i++) {
             Instantiate(powerUpHere, transform.position + new Vector3(Mathf.Cos(angle * i), Mathf.Sin(angle * i)), Quaternion.identity);
+        }
+    }
+
+    public void HyperRing()
+    {
+        float distanceTOHyperRing = Vector3.Distance(transform.position, hyperRingHere.position);
+
+        if(distanceTOHyperRing <= hyperRIngRadius)
+        {
+            if (!inTheRing)
+            {
+                maxSpeed = boostedSpeed;
+                inTheRing = true;
+            }
+            else
+            {
+                maxSpeed = originalMaxSpeed;
+                inTheRing = false;
+            }
         }
     }
 }
